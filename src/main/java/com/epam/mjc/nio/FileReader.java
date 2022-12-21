@@ -1,17 +1,20 @@
 package com.epam.mjc.nio;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.file.FileAlreadyExistsException;
 
 
 public class FileReader {
 
     public Profile getDataFromFile(File file) {
+        file = new File("src\\main\\resources\\Profile.txt");
         StringBuilder temp = new StringBuilder();
-        try (RandomAccessFile aFile = new RandomAccessFile("src\\main\\resources\\Profile.txt", "r")) {
+        try (RandomAccessFile aFile = new RandomAccessFile(file.getAbsolutePath(), "r")) {
             FileChannel channel = aFile.getChannel();
             long size = channel.size();
             ByteBuffer buffer = ByteBuffer.allocate((int) size);
@@ -20,6 +23,8 @@ public class FileReader {
             for (int i = 0; i < size; i++) {
                 temp.append((char) buffer.get());
             }
+        } catch (FileAlreadyExistsException | FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
