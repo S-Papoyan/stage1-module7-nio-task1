@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.charset.MalformedInputException;
 
 public class FileReader {
 
@@ -20,10 +19,8 @@ public class FileReader {
             for (int i = 0; i < size; i++) {
                 temp.append((char) buffer.get());
             }
-        } catch (MalformedInputException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         String[] split = temp.toString().split("\r\n");
         String[] values = new String[4];
